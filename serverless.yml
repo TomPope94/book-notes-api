@@ -42,7 +42,7 @@ functions:
   #     domain api call
   # - authorizer: authenticate using the AWS IAM role
   create:
-    handler: create.main
+    handler: routes/create.main
     events:
       - http:
           path: books
@@ -53,7 +53,7 @@ functions:
     # Defines an HTTP API endpoint that calls the main function in get.js
     # - path: url path is /notes/{id}
     # - method: GET request
-    handler: get.main
+    handler: routes/get.main
     events:
       - http:
           path: books/{id}
@@ -64,7 +64,7 @@ functions:
     # Defines an HTTP API endpoint that calls the main function in list.js
     # - path: url path is /notes
     # - method: GET request
-    handler: list.main
+    handler: routes/list.main
     events:
       - http:
           path: books
@@ -75,7 +75,7 @@ functions:
     # Defines an HTTP API endpoint that calls the main function in update.js
     # - path: url path is /notes/{id}
     # - method: PUT request
-    handler: update.main
+    handler: routes/update.main
     events:
       - http:
           path: books/{id}
@@ -86,7 +86,7 @@ functions:
     # Defines an HTTP API endpoint that calls the main function in delete.js
     # - path: url path is /notes/{id}
     # - method: DELETE request
-    handler: delete.main
+    handler: routes/delete.main
     events:
       - http:
           path: books/{id}
