@@ -110,7 +110,7 @@ functions:
     handler: services/review/updateReview.main
     events:
       - http:
-          path: book/{id}/review
+          path: books/{id}/review
           method: put
           cors: true
           authorizer: aws_iam
@@ -129,7 +129,7 @@ functions:
     handler: services/progression/updateProgression.main
     events:
       - http:
-          path: book/{id}/progress
+          path: books/{id}/progress
           method: put
           cors: true
           authorizer: aws_iam
@@ -137,7 +137,7 @@ functions:
     handler: services/progression/deleteProgression.main
     events:
       - http:
-          path: book/{id}/progress
+          path: books/{id}/progress
           method: delete
           cors: true
           authorizer: aws_iam
