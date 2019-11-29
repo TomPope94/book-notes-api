@@ -1,9 +1,8 @@
-import uuid from "uuid";
-import * as dynamoDbLib from "../../libs/dynamodb-lib";
-import { success, failure } from "../../libs/response-lib";
+import uuid from 'uuid';
+import * as dynamoDbLib from '../../libs/dynamodb-lib';
+import { success, failure } from '../../libs/response-lib';
 
 export async function main(event, context) {
-  console.log(event.body);
   const data = JSON.parse(event.body);
   const params = {
     TableName: process.env.booksTableName,
@@ -23,7 +22,7 @@ export async function main(event, context) {
   };
 
   try {
-    await dynamoDbLib.call("put", params);
+    await dynamoDbLib.call('put', params);
     return success(params.Item);
   } catch (e) {
     return failure({ status: false });

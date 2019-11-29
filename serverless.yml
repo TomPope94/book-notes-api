@@ -26,7 +26,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:eu-west-1:*:*"
+      Resource: 'arn:aws:dynamodb:eu-west-1:*:*'
 
 functions:
   #############################################
@@ -82,6 +82,16 @@ functions:
       - http:
           path: books/{id}
           method: delete
+          cors: true
+          authorizer: aws_iam
+  bookSearch:
+    handler: services/books/searchBook.main
+    environment:
+      googleBooksKey: AIzaSyB404R9Yom8qkJOrFG0xLpgd9Smh9VLvMA
+    events:
+      - http:
+          path: books/search
+          method: get
           cors: true
           authorizer: aws_iam
   #############################################
