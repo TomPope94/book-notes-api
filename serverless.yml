@@ -1,6 +1,5 @@
 service: book-notes-app-api
 
-# Create an optimized package for our functions
 package:
   individually: true
 
@@ -14,14 +13,9 @@ provider:
   runtime: nodejs10.x
   stage: prod
   region: eu-west-1
-
-  # These environment variables are made available to our functions
-  # under process.env.
   environment:
-    tableName: books
-
-  # 'iamRoleStatements' defines the permission policy for the Lambda function.
-  # In this case Lambda functions are granted with permissions to access DynamoDB.
+    booksTableName: books
+    usersTableName: users
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -36,68 +30,73 @@ provider:
 
 functions:
   #############################################
+  ####      User Management Service        ####
+  #############################################
+  # create:
+  #   handler: services/users/create.main
+  #   events:
+  #     - http:
+  #         path: users
+  #         method: post
+  #         cors: true
+  #         authorizer: aws_iam
+
+  #############################################
   ####     Book Management Service         ####
   #############################################
-
-  #############################################
-  ####      Book Tracking Service          ####
-  #############################################
-
-  #############################################
-  ####          Notes Service              ####
-  #############################################
-
-  #############################################
-  ####         Review Service              ####
-  #############################################
-
-  #############################################
-  ####    Account Management Service       ####
-  #############################################
-
-  #############################################
-  ####          Payments Service           ####
-  #############################################
-  create:
-    handler: routes/create.main
+  createBook:
+    handler: services/books/createBook.main
     events:
       - http:
           path: books
           method: post
           cors: true
           authorizer: aws_iam
-  get:
-    handler: routes/get.main
+  getBook:
+    handler: services/books/getBook.main
     events:
       - http:
           path: books/{id}
           method: get
           cors: true
           authorizer: aws_iam
-  list:
-    handler: routes/list.main
+  listBooks:
+    handler: services/books/listBooks.main
     events:
       - http:
           path: books
           method: get
           cors: true
           authorizer: aws_iam
-  update:
-    handler: routes/update.main
+  updateBook:
+    handler: services/books/updateBook.main
     events:
       - http:
           path: books/{id}
           method: put
           cors: true
           authorizer: aws_iam
-  delete:
-    handler: routes/delete.main
+  deleteBook:
+    handler: services/books/deleteBook.main
     events:
       - http:
           path: books/{id}
           method: delete
           cors: true
           authorizer: aws_iam
+  #############################################
+  ####      Book Tracking Service          ####
+  #############################################
+  #############################################
+  ####          Notes Service              ####
+  #############################################
+  #############################################
+  ####         Review Service              ####
+  #############################################
+  #############################################
+  ####          Payments Service           ####
+  #############################################
+
 # Create our resources with separate CloudFormation templates
 resources:
   # API Gateway Errors

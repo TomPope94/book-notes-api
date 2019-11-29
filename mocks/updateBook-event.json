@@ -1,0 +1,11 @@
+{
+  "body": "{\"bookTitle\":\"original title\",\"bookAuthor\":\"someone awesome\", \"numPages\": 25, \"coverArt\":\"link to picture!\", \"categories\": [\"cat1\",\"cat2\"], \"bookLanguage\": \"fr\"}",
+  "pathParameters": {
+    "id": "fd2654f0-12c0-11ea-b60b-1fba90fef376"
+  },
+  "requestContext": {
+    "identity": {
+      "cognitoIdentityId": "USER-SUB-1234"
+    }
+  }
+}

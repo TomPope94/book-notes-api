@@ -1,8 +1,0 @@
-{
-  "body": "{\"title\":\"hello world\",\"author\":\"somebobdy\", \"notes\":\"some notes\", \"rating\": 5}",
-  "requestContext": {
-    "identity": {
-      "cognitoIdentityId": "USER-SUB-1234"
-    }
-  }
-}

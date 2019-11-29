@@ -1,0 +1,8 @@
+{
+  "body": "{\"bookTitle\":\"hello world\",\"bookAuthor\":\"somebobdy\", \"bookLanguage\": \"en\"}",
+  "requestContext": {
+    "identity": {
+      "cognitoIdentityId": "USER-SUB-1234"
+    }
+  }
+}
