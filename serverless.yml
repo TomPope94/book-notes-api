@@ -85,14 +85,62 @@ functions:
           cors: true
           authorizer: aws_iam
   #############################################
-  ####      Book Tracking Service          ####
-  #############################################
-  #############################################
   ####          Notes Service              ####
   #############################################
+  updateNotes:
+    handler: services/notes/updateNotes.main
+    events:
+      - http:
+          path: books/{id}/notes
+          method: put
+          cors: true
+          authorizer: aws_iam
+  deleteNotes:
+    handler: services/notes/deleteNotes.main
+    events:
+      - http:
+          path: books/{id}/notes
+          method: delete
+          cors: true
+          authorizer: aws_iam
   #############################################
   ####         Review Service              ####
   #############################################
+  updateReview:
+    handler: services/review/updateReview.main
+    events:
+      - http:
+          path: book/{id}/review
+          method: put
+          cors: true
+          authorizer: aws_iam
+  deleteReview:
+    handler: services/review/deleteReview.main
+    events:
+      - http:
+          path: books/{id}/review
+          method: delete
+          cors: true
+          authorizer: aws_iam
+  #############################################
+  ####      Book Tracking Service          ####
+  #############################################
+  updateProgression:
+    handler: services/progression/updateProgression.main
+    events:
+      - http:
+          path: book/{id}/progress
+          method: put
+          cors: true
+          authorizer: aws_iam
+  deleteProgression:
+    handler: services/progression/deleteProgression.main
+    events:
+      - http:
+          path: book/{id}/progress
+          method: delete
+          cors: true
+          authorizer: aws_iam
   #############################################
   ####          Payments Service           ####
   #############################################

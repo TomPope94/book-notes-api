@@ -9,17 +9,13 @@ export async function main(event, context) {
       userId: event.requestContext.identity.cognitoIdentityId,
       bookId: event.pathParameters.id
     },
-    // 'UpdateExpression' defines the attributes to be updated
-    // 'ExpressionAttributeValues' defines the value in the update expression
-    UpdateExpression:
-      "SET bookTitle = :bookTitle, bookAuthor = :bookAuthor, numPages = :numPages, coverArt = :coverArt, categories = :categories, bookLanguage= :bookLanguage",
+    UpdateExpression: "SET bookProgression = :bookProgression",
     ExpressionAttributeValues: {
-      ":bookTitle": data.bookTitle || null,
-      ":bookAuthor": data.bookAuthor || null,
-      ":numPages": data.numPages || null,
-      ":coverArt": data.coverArt || null,
-      ":categories": data.categories || null,
-      ":bookLanguage": data.bookLanguage || null
+      ":bookProgression": {
+        percentComplete: data.percentComplete || null,
+        dateStarted: data.dateStarted || null,
+        plannedFinishDate: data.plannedFinishDate || null
+      }
     },
     // 'ReturnValues' specifies if and how to return the item's attributes,
     // where ALL_NEW returns all attributes of the item after the update; you

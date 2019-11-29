@@ -7,11 +7,19 @@ export async function main(event, context) {
     Key: {
       userId: event.requestContext.identity.cognitoIdentityId,
       bookId: event.pathParameters.id
-    }
+    },
+    UpdateExpression: "SET bookReview = :bookReview",
+    ExpressionAttributeValues: {
+      ":bookReview": {}
+    },
+    // 'ReturnValues' specifies if and how to return the item's attributes,
+    // where ALL_NEW returns all attributes of the item after the update; you
+    // can inspect 'result' below to see how it works with different settings
+    ReturnValues: "ALL_NEW"
   };
 
   try {
-    await dynamoDbLib.call("delete", params);
+    await dynamoDbLib.call("update", params);
     return success({ status: true });
   } catch (e) {
     return failure({ status: false });
