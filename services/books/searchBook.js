@@ -14,12 +14,13 @@ export async function main(event) {
     const res = await axios.get(searchURL);
     const searchResult = res.data.items.map(item => {
       const output = {
+        volumeId: item.id,
         title: item.volumeInfo.title,
         authors: item.volumeInfo.authors,
         published: item.volumeInfo.publishedDate,
         pageCount: item.volumeInfo.pageCount,
         categories: item.volumeInfo.categories,
-        image: item.volumeInfo.thumbnail,
+        image: item.volumeInfo.imageLinks,
         language: item.volumeInfo.language
       };
 
