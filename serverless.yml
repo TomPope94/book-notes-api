@@ -16,6 +16,7 @@ provider:
   environment:
     booksTableName: books
     usersTableName: users
+    googleBooksKey: ${env:GOOGLE_KEY}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -26,7 +27,14 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
+        - cloudFormation:CreateStack
+        - cloudFormation:UpdateStack
       Resource: 'arn:aws:dynamodb:eu-west-1:*:*'
+    - Effect: 'Allow'
+      Action:
+        - 'rds:*'
+        - 'execute-api:*'
+      Resource: '*'
 
 functions:
   #############################################
@@ -86,8 +94,6 @@ functions:
           authorizer: aws_iam
   bookSearch:
     handler: services/books/searchBook.main
-    environment:
-      googleBooksKey: AIzaSyB404R9Yom8qkJOrFG0xLpgd9Smh9VLvMA
     events:
       - http:
           path: books/search

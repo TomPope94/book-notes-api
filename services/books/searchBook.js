@@ -1,5 +1,5 @@
 import axios from 'axios';
-// import { success, failure } from '../../libs/response-lib';
+import { success, failure } from '../../libs/response-lib';
 
 export async function main(event) {
   const data = JSON.parse(event.body);
@@ -26,14 +26,8 @@ export async function main(event) {
 
       return output;
     });
-    return {
-      statusCode: 200,
-      body: JSON.stringify(searchResult)
-    };
+    return success(searchResult);
   } catch (err) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify(err)
-    };
+    return failure({ status: false });
   }
 }

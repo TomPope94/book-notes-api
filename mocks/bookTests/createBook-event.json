@@ -2,7 +2,7 @@
   "body": "{\"bookTitle\":\"hello world\",\"bookAuthor\":\"somebobdy\", \"bookLanguage\": \"en\"}",
   "requestContext": {
     "identity": {
-      "cognitoIdentityId": "USER-SUB-1234"
+      "cognitoIdentityId": "2eb0dd51-f9c7-4202-a421-2f5a467d85d0"
     }
   }
 }
