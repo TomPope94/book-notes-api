@@ -1,0 +1,8 @@
+{
+  "body": "{\"date\": 20191204}",
+  "requestContext": {
+    "identity": {
+      "cognitoIdentityId": "2eb0dd51-f9c7-4202-a421-2f5a467d85d0"
+    }
+  }
+}

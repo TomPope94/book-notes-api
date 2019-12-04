@@ -1,10 +1,10 @@
-import uuid from 'uuid';
-import * as dynamoDbLib from '../../libs/dynamodb-lib';
-import { success, failure } from '../../libs/response-lib';
+import uuid from "uuid";
+import * as dynamoDbLib from "../../libs/dynamodb-lib";
+import { success, failure } from "../../libs/response-lib";
 
 export async function main(event, context) {
   const data = JSON.parse(event.body);
-  const today = new Date();
+  const today = await Date.now();
   const params = {
     TableName: process.env.booksTableName,
     Item: {
@@ -20,13 +20,13 @@ export async function main(event, context) {
       bookReview: {},
       bookProgression: {
         pagesRead: 0,
-        dateStarted: today.toLocaleDateString('en-US')
+        dateStarted: today
       }
     }
   };
 
   try {
-    await dynamoDbLib.call('put', params);
+    await dynamoDbLib.call("put", params);
     return success(params.Item);
   } catch (e) {
     return failure({ status: false });
