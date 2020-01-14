@@ -28,7 +28,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:eu-west-1:*:*"
+      Resource: 'arn:aws:dynamodb:eu-west-1:*:*'
 
 functions:
   #############################################
@@ -78,6 +78,14 @@ functions:
           method: put
           cors: true
           authorizer: aws_iam
+  updatePlannedDate:
+    handler: services/books/updatePlannedDate.main
+    events:
+      - http:
+          path: books/planned-date/{id}
+          method: put
+          cors: true
+          authorizer: aws_iam
   deleteBook:
     handler: services/books/deleteBook.main
     events:
@@ -101,7 +109,7 @@ functions:
     handler: services/notes/updateNotes.main
     events:
       - http:
-          path: books/{id}/notes
+          path: books/notes/{id}
           method: put
           cors: true
           authorizer: aws_iam
@@ -109,7 +117,7 @@ functions:
     handler: services/notes/deleteNotes.main
     events:
       - http:
-          path: books/{id}/notes
+          path: books/notes/{id}
           method: delete
           cors: true
           authorizer: aws_iam
@@ -120,7 +128,7 @@ functions:
     handler: services/review/updateReview.main
     events:
       - http:
-          path: books/{id}/review
+          path: books/review/{id}
           method: put
           cors: true
           authorizer: aws_iam
@@ -128,7 +136,7 @@ functions:
     handler: services/review/deleteReview.main
     events:
       - http:
-          path: books/{id}/review
+          path: books/review/{id}
           method: delete
           cors: true
           authorizer: aws_iam
@@ -139,7 +147,7 @@ functions:
     handler: services/progression/updateProgression.main
     events:
       - http:
-          path: books/{id}/progress
+          path: books/progress/{id}
           method: put
           cors: true
           authorizer: aws_iam
@@ -147,7 +155,7 @@ functions:
     handler: services/progression/deleteProgression.main
     events:
       - http:
-          path: books/{id}/progress
+          path: books/progress/{id}
           method: delete
           cors: true
           authorizer: aws_iam
