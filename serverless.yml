@@ -28,7 +28,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: 'arn:aws:dynamodb:eu-west-1:*:*'
+      Resource: "arn:aws:dynamodb:eu-west-1:*:*"
 
 functions:
   #############################################
@@ -99,7 +99,7 @@ functions:
     events:
       - http:
           path: books/search
-          method: get
+          method: post
           cors: true
           authorizer: aws_iam
   #############################################
