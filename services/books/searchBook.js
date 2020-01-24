@@ -1,14 +1,20 @@
-import axios from 'axios';
-import { success, failure } from '../../libs/response-lib';
+import axios from "axios";
+import { success, failure } from "../../libs/response-lib";
 
 export async function main(event) {
   const data = JSON.parse(event.body);
+
   const params = {
     title: data.bookTitle,
     author: data.bookAuthor,
     key: process.env.googleBooksKey
   };
-  const searchURL = `https://www.googleapis.com/books/v1/volumes?q=intitle:${params.title}+inauthor:${params.author}&key=${params.key}`;
+
+  const titleString = params.title.length > 0 ? `intitle:${params.title}` : "";
+  const authorString =
+    params.author.length > 0 ? `inauthor:${params.author}` : "";
+
+  const searchURL = `https://www.googleapis.com/books/v1/volumes?q=${titleString}+${authorString}&key=${params.key}`;
 
   try {
     const res = await axios.get(searchURL);
