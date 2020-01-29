@@ -28,7 +28,12 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:eu-west-1:*:*"
+      Resource: 'arn:aws:dynamodb:eu-west-1:*:*'
+    - Effect: Allow
+      Action:
+        - SES:SendEmail
+        - SES:SendRawEmail
+      Resource: 'arn:aws:ses:eu-west-1:*:*'
 
 functions:
   #############################################
@@ -205,6 +210,17 @@ functions:
   #############################################
   ####          Payments Service           ####
   #############################################
+  #############################################
+  ####           Emails Service            ####
+  #############################################
+  welcomeEmail:
+    handler: services/emails/welcomeEmail.main
+    events:
+      - http:
+          path: emails/welcome
+          method: post
+          cors: true
+          authorizer: aws_iam
 
 # Create our resources with separate CloudFormation templates
 resources:
