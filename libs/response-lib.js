@@ -10,8 +10,9 @@ function buildResponse(statusCode, body) {
   return {
     statusCode: statusCode,
     headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": true,
+      "Access-Control-Allow-Headers": "x-requested-with"
     },
     body: JSON.stringify(body)
   };

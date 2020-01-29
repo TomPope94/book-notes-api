@@ -19,7 +19,7 @@ provider:
     timeSeriesTableName: bookNotes_timeSeries
     googleBooksKey: ${env:GOOGLE_KEY}
   iamRoleStatements:
-    - Effect: Allow
+    - Effect: "Allow"
       Action:
         - dynamodb:DescribeTable
         - dynamodb:Query
@@ -28,25 +28,41 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: 'arn:aws:dynamodb:eu-west-1:*:*'
-    - Effect: Allow
+      Resource: "arn:aws:dynamodb:eu-west-1:*:*"
+    - Effect: "Allow"
       Action:
         - SES:SendEmail
         - SES:SendRawEmail
-      Resource: 'arn:aws:ses:eu-west-1:*:*'
+      Resource: "*"
 
 functions:
   #############################################
   ####      User Management Service        ####
   #############################################
-  # create:
-  #   handler: services/users/create.main
-  #   events:
-  #     - http:
-  #         path: users
-  #         method: post
-  #         cors: true
-  #         authorizer: aws_iam
+  createUser:
+    handler: services/users/createUser.main
+    events:
+      - http:
+          path: users
+          method: post
+          cors: true
+          authorizer: aws_iam
+  getUser:
+    handler: services/users/getUser.main
+    events:
+      - http:
+          path: users
+          method: get
+          cors: true
+          authorizer: aws_iam
+  updateUser:
+    handler: services/users/updateUser.main
+    events:
+      - http:
+          path: users
+          method: put
+          cors: true
+          authorizer: aws_iam
 
   #############################################
   ####     Book Management Service         ####
@@ -220,7 +236,6 @@ functions:
           path: emails/welcome
           method: post
           cors: true
-          authorizer: aws_iam
 
 # Create our resources with separate CloudFormation templates
 resources:
