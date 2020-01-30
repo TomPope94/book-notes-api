@@ -227,11 +227,11 @@ functions:
   #############################################
   ####          Payments Service           ####
   #############################################
-  billing:
-    handler: services/payments/billing.main
+  startPayIntent:
+    handler: services/payments/startPayIntent.main
     events:
       - http:
-          path: billing
+          path: billing/start
           method: post
           cors: true
           authorizer: aws_iam
