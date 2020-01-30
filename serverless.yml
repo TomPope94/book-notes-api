@@ -18,6 +18,7 @@ provider:
     usersTableName: users
     timeSeriesTableName: bookNotes_timeSeries
     googleBooksKey: ${env:GOOGLE_KEY}
+    stripeSecretKey: ${env:STRIPE_SECRET_KEY}
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -226,6 +227,14 @@ functions:
   #############################################
   ####          Payments Service           ####
   #############################################
+  billing:
+    handler: services/payments/billing.main
+    events:
+      - http:
+          path: billing
+          method: post
+          cors: true
+          authorizer: aws_iam
   #############################################
   ####           Emails Service            ####
   #############################################
