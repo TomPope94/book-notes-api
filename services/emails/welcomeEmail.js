@@ -1,40 +1,34 @@
-import AWS from 'aws-sdk';
-// AWS.config.update({ region: 'eu-west-1' });
+import AWS from "aws-sdk";
+const ses = new AWS.SES();
+import { success, failure } from "../../libs/response-lib";
 
 export async function main(event, context) {
   const data = JSON.parse(event.body);
-
+  console.log(data);
+  console.log(data.emailAddress);
   const params = {
+    Source: "magnapps.noreply@gmail.com",
     Destination: {
       ToAddresses: [data.emailAddress]
     },
     Message: {
       Body: {
-        Html: {
-          Charset: 'UTF-8',
-          Data: '<h1>Welcome!</h1>'
+        Text: {
+          Charset: "UTF-8",
+          Data: `Message sent from email ${data.emailAddress}`
         }
       },
       Subject: {
-        Charset: 'UTF-8',
-        Data: 'Test email'
+        Charset: "UTF-8",
+        Data: `You received a message from liberead!`
       }
-    },
-    Source: 'magnapps.noreply@gmail.com'
+    }
   };
 
-  const sendPromise = new AWS.SES({
-    region: 'eu-west-1',
-    apiVersion: '2010-12-01'
-  })
-    .sendEmail(params)
-    .promise();
-
-  sendPromise
-    .then(function(data) {
-      console.log(data.MessageId);
-    })
-    .catch(function(err) {
-      console.error(err, err.stack);
-    });
+  try {
+    const emailData = await ses.sendEmail(params).promise();
+    return success(emailData);
+  } catch (err) {
+    return failure({ status: false });
+  }
 }
