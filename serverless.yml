@@ -20,7 +20,7 @@ provider:
     googleBooksKey: ${env:GOOGLE_KEY}
     stripeSecretKey: ${env:STRIPE_SECRET_KEY}
   iamRoleStatements:
-    - Effect: "Allow"
+    - Effect: 'Allow'
       Action:
         - dynamodb:DescribeTable
         - dynamodb:Query
@@ -29,12 +29,12 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:eu-west-1:*:*"
-    - Effect: "Allow"
+      Resource: 'arn:aws:dynamodb:eu-west-1:*:*'
+    - Effect: 'Allow'
       Action:
         - SES:SendEmail
         - SES:SendRawEmail
-      Resource: "*"
+      Resource: '*'
 
 functions:
   #############################################
@@ -235,6 +235,13 @@ functions:
           method: post
           cors: true
           authorizer: aws_iam
+  payIntentWebhook:
+    handler: services/payments/payIntentWebhook.main
+    events:
+      - http:
+          path: billing/payment_intent/webhook
+          method: post
+          cors: true
   #############################################
   ####           Emails Service            ####
   #############################################
