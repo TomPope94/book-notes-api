@@ -16,6 +16,7 @@ provider:
   environment:
     booksTableName: books
     usersTableName: users
+    transactionsTableName: transactions
     timeSeriesTableName: bookNotes_timeSeries
     googleBooksKey: ${env:GOOGLE_KEY}
     stripeSecretKey: ${env:STRIPE_SECRET_KEY}
