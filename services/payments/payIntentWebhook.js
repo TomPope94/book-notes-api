@@ -6,15 +6,17 @@ export async function main(event, context) {
     const eventData = JSON.parse(event.body);
 
     // need a switch for the type
+    let paymentData, editPaymentStatus;
+
     switch (eventData.type) {
       case 'payment_intent.succeeded':
         // find the PI_Id in the transactions DB
-        const paymentData = await billingLib.getTransactionData(
+        paymentData = await billingLib.getTransactionData(
           eventData.data.object.id
         );
 
         // change the status to succeeded
-        const editPaymentStatus = await billingLib.editTransactionStatus(
+        editPaymentStatus = await billingLib.editTransactionStatus(
           paymentData,
           'success'
         );
@@ -30,6 +32,28 @@ export async function main(event, context) {
             paymentData.slotsPurchased
           );
         }
+        break;
+      case 'payment_intent.payment_failed':
+        paymentData = await billingLib.getTransactionData(
+          eventData.data.object.id
+        );
+
+        // change the status to succeeded
+        editPaymentStatus = await billingLib.editTransactionStatus(
+          paymentData,
+          'failed'
+        );
+        break;
+      case 'payment_intent.canceled':
+        paymentData = await billingLib.getTransactionData(
+          eventData.data.object.id
+        );
+
+        // change the status to succeeded
+        editPaymentStatus = await billingLib.editTransactionStatus(
+          paymentData,
+          'canceled'
+        );
         break;
       default:
         return failure();

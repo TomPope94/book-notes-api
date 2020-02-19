@@ -236,6 +236,14 @@ functions:
           method: post
           cors: true
           authorizer: aws_iam
+  cancelPayIntent:
+    handler: services/payments/cancelPayIntent.main
+    events:
+      - http:
+          path: billing/cancel
+          method: post
+          cors: true
+          authorizer: aws_iam
   payIntentWebhook:
     handler: services/payments/payIntentWebhook.main
     events:
