@@ -9,7 +9,7 @@ export async function main(event, context) {
       userId: event.requestContext.identity.cognitoIdentityId,
       bookId: event.pathParameters.id
     },
-    UpdateExpression: 'ADD bookNotes = :bookNotes',
+    UpdateExpression: 'SET bookNotes = :bookNotes',
     ExpressionAttributeValues: {
       ':bookNotes': {
         notesCreated: data.bookNotes.notesCreated || null,
@@ -28,6 +28,7 @@ export async function main(event, context) {
     await dynamoDbLib.call('update', params);
     return success({ status: true });
   } catch (e) {
+    console.error(e);
     return failure({ status: false });
   }
 }
