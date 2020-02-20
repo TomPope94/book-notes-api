@@ -12,7 +12,7 @@ export async function main(event, context) {
     // 'UpdateExpression' defines the attributes to be updated
     // 'ExpressionAttributeValues' defines the value in the update expression
     UpdateExpression:
-      'SET bookTitle = :bookTitle, bookAuthor = :bookAuthor, numPages = :numPages, coverArt = :coverArt, categories = :categories, bookLanguage= :bookLanguage, bookState = :bookState, bookCreated = :bookCreated, bookNotes = :bookNotes',
+      'SET bookTitle = :bookTitle, bookAuthor = :bookAuthor, numPages = :numPages, coverArt = :coverArt, categories = :categories, bookLanguage= :bookLanguage, bookState = :bookState, dateCreated = :dateCreated',
     ExpressionAttributeValues: {
       ':bookTitle': data.bookTitle || null,
       ':bookAuthor': data.bookAuthor || null,
@@ -21,13 +21,7 @@ export async function main(event, context) {
       ':categories': data.categories || null,
       ':bookLanguage': data.bookLanguage || null,
       ':bookState': data.bookState || null,
-      ':dateCreated': data.dateCreated || null,
-      ':bookNotes': {
-        notesCreated: data.bookNotes.notesCreated || null,
-        notesContent: data.bookNotes.notesContent || null,
-        notesLastEdited: data.bookNotes.notesLastEdited || null,
-        notesNumEdited: data.bookNotes.notesNumEdited || null
-      }
+      ':dateCreated': data.dateCreated || null
     },
     // 'ReturnValues' specifies if and how to return the item's attributes,
     // where ALL_NEW returns all attributes of the item after the update; you
@@ -39,6 +33,7 @@ export async function main(event, context) {
     await dynamoDbLib.call('update', params);
     return success({ status: true });
   } catch (e) {
+    console.error(e);
     return failure({ status: false });
   }
 }
