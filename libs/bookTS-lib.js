@@ -41,9 +41,7 @@ export const updateTSTable = async (userId, bookId, data) => {
       observedDate: dateNum,
       observable: data.observable,
       metaData: {
-        numPages: data.numPages,
-        fromPage: data.fromPage,
-        toPage: data.toPage
+        numPages: data.numPages
       }
     }
   };
