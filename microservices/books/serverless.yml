@@ -1,0 +1,105 @@
+service: liberead-books
+
+package:
+  individually: true
+
+plugins:
+  - serverless-bundle # Package our functions with Webpack
+  - serverless-offline
+  - serverless-dotenv-plugin # Load .env as environment variables
+  - serverless-domain-manager
+
+custom:
+  customDomain:
+    domainName: api.liberead.com
+    basePath: books
+    stage: prod
+    createRoute53Record: true
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: prod
+  region: eu-west-1
+  environment:
+    booksTableName: books
+    usersTableName: users
+    booksAPIKey: ${env:BOOKS_KEY}
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: 'arn:aws:dynamodb:eu-west-1:*:*'
+    - Effect: 'Allow'
+      Action:
+        - execute-api:Invoke
+      Resource: 'arn:aws:execute-api:eu-west-1:*:*'
+
+functions:
+  createBook:
+    handler: services/createBook.main
+    events:
+      - http:
+          path: /
+          method: post
+          cors: true
+          authorizer: aws_iam
+  getBook:
+    handler: services/getBook.main
+    events:
+      - http:
+          path: /{id}
+          method: get
+          cors: true
+          authorizer: aws_iam
+  listBooks:
+    handler: services/listBooks.main
+    events:
+      - http:
+          path: /
+          method: get
+          cors: true
+          authorizer: aws_iam
+  updateBook:
+    handler: services/updateBook.main
+    events:
+      - http:
+          path: /{id}
+          method: put
+          cors: true
+          authorizer: aws_iam
+  updatePlannedDate:
+    handler: services/updatePlannedDate.main
+    events:
+      - http:
+          path: /planned-date/{id}
+          method: put
+          cors: true
+          authorizer: aws_iam
+  deleteBook:
+    handler: services/deleteBook.main
+    events:
+      - http:
+          path: /{id}
+          method: delete
+          cors: true
+          authorizer: aws_iam
+  bookSearch:
+    handler: services/searchBook.main
+    events:
+      - http:
+          path: /search
+          method: post
+          cors: true
+          authorizer: aws_iam
+
+# Create our resources with separate CloudFormation templates
+resources:
+  # API Gateway Errors
+  - ${file(../resources/api-gateway-errors.yml)}

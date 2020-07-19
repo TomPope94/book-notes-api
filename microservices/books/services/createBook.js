@@ -24,8 +24,8 @@ export async function main(event, context) {
       categories: data.categories,
       bookLanguage: data.bookLanguage,
       bookState: data.bookState,
-      dateCreated: dateNum
-    }
+      dateCreated: dateNum,
+    },
   };
 
   try {

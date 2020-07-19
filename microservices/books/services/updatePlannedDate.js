@@ -11,13 +11,13 @@ export async function main(event, context) {
     TableName: process.env.booksTableName,
     Key: {
       userId: event.requestContext.identity.cognitoIdentityId,
-      bookId: event.pathParameters.id
+      bookId: event.pathParameters.id,
     },
     UpdateExpression: 'SET datePlanned = :datePlanned',
     ExpressionAttributeValues: {
-      ':datePlanned': dateNum
+      ':datePlanned': dateNum,
     },
-    ReturnValues: 'ALL_NEW'
+    ReturnValues: 'ALL_NEW',
   };
 
   try {

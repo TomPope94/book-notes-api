@@ -1,0 +1,52 @@
+service: liberead-notes
+
+package:
+  individually: true
+
+plugins:
+  - serverless-bundle # Package our functions with Webpack
+  - serverless-offline
+  - serverless-dotenv-plugin # Load .env as environment variables
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: prod
+  region: eu-west-1
+  environment:
+    booksTableName: books
+    usersTableName: users
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: 'arn:aws:dynamodb:eu-west-1:*:*'
+
+functions:
+  updateNotes:
+    handler: services/notes/updateNotes.main
+    events:
+      - http:
+          path: books/notes/{id}
+          method: put
+          cors: true
+          authorizer: aws_iam
+  deleteNotes:
+    handler: services/notes/deleteNotes.main
+    events:
+      - http:
+          path: books/notes/{id}
+          method: delete
+          cors: true
+          authorizer: aws_iam
+
+# Create our resources with separate CloudFormation templates
+resources:
+  # API Gateway Errors
+  - ${file(resources/api-gateway-errors.yml)}

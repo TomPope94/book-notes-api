@@ -1,0 +1,77 @@
+service: liberead-book-tracking-TS
+
+package:
+  individually: true
+
+plugins:
+  - serverless-bundle # Package our functions with Webpack
+  - serverless-offline
+  - serverless-dotenv-plugin # Load .env as environment variables
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: prod
+  region: eu-west-1
+  environment:
+    booksTableName: books
+    usersTableName: users
+    timeSeriesTableName: bookNotes_timeSeries
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: 'arn:aws:dynamodb:eu-west-1:*:*'
+
+functions:
+  addProgression_TS:
+    handler: services/timeSeries/addProgression.main
+    events:
+      - http:
+          path: books/progress/track/{id}
+          method: post
+          cors: true
+          authorizer: aws_iam
+  updateProgression_TS:
+    handler: services/timeSeries/updateProgression.main
+    events:
+      - http:
+          path: books/progress/track/{id}
+          method: put
+          cors: true
+          authorizer: aws_iam
+  getBookProgression_TS:
+    handler: services/timeSeries/getBookProgression.main
+    events:
+      - http:
+          path: books/progress/track/{id}
+          method: get
+          cors: true
+          authorizer: aws_iam
+  getUserProgression_TS:
+    handler: services/timeSeries/getUserProgression.main
+    events:
+      - http:
+          path: books/progress/track
+          method: get
+          cors: true
+          authorizer: aws_iam
+  getDayProgression_TS:
+    handler: services/timeSeries/getDayProgression.main
+    events:
+      - http:
+          path: books/progress/track/day
+          method: get
+          cors: true
+          authorizer: aws_iam
+
+# Create our resources with separate CloudFormation templates
+resources:
+  # API Gateway Errors
+  - ${file(resources/api-gateway-errors.yml)}

@@ -41,226 +41,27 @@ functions:
   #############################################
   ####      User Management Service        ####
   #############################################
-  createUser:
-    handler: services/users/createUser.main
-    events:
-      - http:
-          path: users
-          method: post
-          cors: true
-          authorizer: aws_iam
-  getUser:
-    handler: services/users/getUser.main
-    events:
-      - http:
-          path: users
-          method: get
-          cors: true
-          authorizer: aws_iam
-  updateUser:
-    handler: services/users/updateUser.main
-    events:
-      - http:
-          path: users
-          method: put
-          cors: true
-          authorizer: aws_iam
-
   #############################################
   ####     Book Management Service         ####
   #############################################
-  createBook:
-    handler: services/books/createBook.main
-    events:
-      - http:
-          path: books
-          method: post
-          cors: true
-          authorizer: aws_iam
-  getBook:
-    handler: services/books/getBook.main
-    events:
-      - http:
-          path: books/{id}
-          method: get
-          cors: true
-          authorizer: aws_iam
-  listBooks:
-    handler: services/books/listBooks.main
-    events:
-      - http:
-          path: books
-          method: get
-          cors: true
-          authorizer: aws_iam
-  updateBook:
-    handler: services/books/updateBook.main
-    events:
-      - http:
-          path: books/{id}
-          method: put
-          cors: true
-          authorizer: aws_iam
-  updatePlannedDate:
-    handler: services/books/updatePlannedDate.main
-    events:
-      - http:
-          path: books/planned-date/{id}
-          method: put
-          cors: true
-          authorizer: aws_iam
-  deleteBook:
-    handler: services/books/deleteBook.main
-    events:
-      - http:
-          path: books/{id}
-          method: delete
-          cors: true
-          authorizer: aws_iam
-  bookSearch:
-    handler: services/books/searchBook.main
-    events:
-      - http:
-          path: books/search
-          method: post
-          cors: true
-          authorizer: aws_iam
   #############################################
   ####          Notes Service              ####
   #############################################
-  updateNotes:
-    handler: services/notes/updateNotes.main
-    events:
-      - http:
-          path: books/notes/{id}
-          method: put
-          cors: true
-          authorizer: aws_iam
-  deleteNotes:
-    handler: services/notes/deleteNotes.main
-    events:
-      - http:
-          path: books/notes/{id}
-          method: delete
-          cors: true
-          authorizer: aws_iam
   #############################################
   ####         Review Service              ####
   #############################################
-  updateReview:
-    handler: services/review/updateReview.main
-    events:
-      - http:
-          path: books/review/{id}
-          method: put
-          cors: true
-          authorizer: aws_iam
-  deleteReview:
-    handler: services/review/deleteReview.main
-    events:
-      - http:
-          path: books/review/{id}
-          method: delete
-          cors: true
-          authorizer: aws_iam
   #############################################
   ####      Book Tracking Service          ####
   #############################################
-  updateProgression:
-    handler: services/progression/updateProgression.main
-    events:
-      - http:
-          path: books/progress/{id}
-          method: put
-          cors: true
-          authorizer: aws_iam
-  deleteProgression:
-    handler: services/progression/deleteProgression.main
-    events:
-      - http:
-          path: books/progress/{id}
-          method: delete
-          cors: true
-          authorizer: aws_iam
   #############################################
   ####     TimeSeries Tracking Service     ####
   #############################################
-  addProgression_TS:
-    handler: services/timeSeries/addProgression.main
-    events:
-      - http:
-          path: books/progress/track/{id}
-          method: post
-          cors: true
-          authorizer: aws_iam
-  updateProgression_TS:
-    handler: services/timeSeries/updateProgression.main
-    events:
-      - http:
-          path: books/progress/track/{id}
-          method: put
-          cors: true
-          authorizer: aws_iam
-  getBookProgression_TS:
-    handler: services/timeSeries/getBookProgression.main
-    events:
-      - http:
-          path: books/progress/track/{id}
-          method: get
-          cors: true
-          authorizer: aws_iam
-  getUserProgression_TS:
-    handler: services/timeSeries/getUserProgression.main
-    events:
-      - http:
-          path: books/progress/track
-          method: get
-          cors: true
-          authorizer: aws_iam
-  getDayProgression_TS:
-    handler: services/timeSeries/getDayProgression.main
-    events:
-      - http:
-          path: books/progress/track/day
-          method: get
-          cors: true
-          authorizer: aws_iam
   #############################################
   ####          Payments Service           ####
   #############################################
-  startPayIntent:
-    handler: services/payments/startPayIntent.main
-    events:
-      - http:
-          path: billing/start
-          method: post
-          cors: true
-          authorizer: aws_iam
-  cancelPayIntent:
-    handler: services/payments/cancelPayIntent.main
-    events:
-      - http:
-          path: billing/cancel
-          method: post
-          cors: true
-          authorizer: aws_iam
-  payIntentWebhook:
-    handler: services/payments/payIntentWebhook.main
-    events:
-      - http:
-          path: billing/payment_intent/webhook
-          method: post
-          cors: true
   #############################################
   ####           Emails Service            ####
   #############################################
-  welcomeEmail:
-    handler: services/emails/welcomeEmail.main
-    events:
-      - http:
-          path: emails/welcome
-          method: post
-          cors: true
 
 # Create our resources with separate CloudFormation templates
 resources:

@@ -1,0 +1,48 @@
+service: liberead-emails
+
+package:
+  individually: true
+
+plugins:
+  - serverless-bundle # Package our functions with Webpack
+  - serverless-offline
+  - serverless-dotenv-plugin # Load .env as environment variables
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: prod
+  region: eu-west-1
+  environment:
+    booksTableName: books
+    usersTableName: users
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: 'arn:aws:dynamodb:eu-west-1:*:*'
+    - Effect: 'Allow'
+      Action:
+        - SES:SendEmail
+        - SES:SendRawEmail
+      Resource: '*'
+
+functions:
+  welcomeEmail:
+    handler: services/emails/welcomeEmail.main
+    events:
+      - http:
+          path: emails/welcome
+          method: post
+          cors: true
+
+# Create our resources with separate CloudFormation templates
+resources:
+  # API Gateway Errors
+  - ${file(resources/api-gateway-errors.yml)}
