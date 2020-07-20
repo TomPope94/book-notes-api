@@ -7,33 +7,43 @@ export async function main(event) {
   const params = {
     title: data.bookTitle,
     author: data.bookAuthor,
-    key: process.env.googleBooksKey,
+    key: process.env.booksAPIKey,
   };
 
-  const titleString = params.title.length > 0 ? `intitle:${params.title}` : '';
-  const authorString =
-    params.author.length > 0 ? `inauthor:${params.author}` : '';
+  const titleString = params.title.length > 0 ? `${params.title}` : '';
+  const authorString = params.author.length > 0 ? `${params.author}` : '';
 
-  const searchURL = `https://www.googleapis.com/books/v1/volumes?q=${titleString}+${authorString}&key=${params.key}`;
+  const searchURL = `https://api2.isbndb.com/search/books?text=${titleString}&author=${authorString}`;
+
+  const config = {
+    headers: {
+      Host: 'api2.isbndb.com',
+      'User-Agent': 'insomnia/5.12.4',
+      Authorization: params.key,
+      Accept: '*/*',
+    },
+  };
+
+  console.log('The key is: ' + params.key);
 
   try {
-    const res = await axios.get(searchURL);
-    const searchResult = res.data.items.map((item) => {
+    const res = await axios.get(searchURL, config);
+    console.log(res);
+    const searchResult = res.data.data.map((item) => {
       const output = {
-        volumeId: item.id,
-        title: item.volumeInfo.title,
-        authors: item.volumeInfo.authors,
-        published: item.volumeInfo.publishedDate,
-        pageCount: item.volumeInfo.pageCount,
-        categories: item.volumeInfo.categories,
-        image: item.volumeInfo.imageLinks,
-        language: item.volumeInfo.language,
+        volumeId: item.isbn,
+        title: item.title,
+        authors: item.authors,
+        published: item.publish_date,
+        pageCount: item.pages,
+        image: item.image,
+        language: item.language,
       };
 
       return output;
     });
     return success(searchResult);
   } catch (err) {
-    return failure({ status: false });
+    return failure({ status: false, error: err.message });
   }
 }

@@ -15,6 +15,8 @@ custom:
     basePath: books
     stage: prod
     createRoute53Record: true
+  dotenv:
+    path: ../../.env
 
 provider:
   name: aws
@@ -39,7 +41,7 @@ provider:
     - Effect: 'Allow'
       Action:
         - execute-api:Invoke
-      Resource: 'arn:aws:execute-api:eu-west-1:*:*'
+      Resource: 'arn:aws:execute-api:eu-west-1:*:'
 
 functions:
   createBook:
