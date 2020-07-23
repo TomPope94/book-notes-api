@@ -12,7 +12,7 @@ plugins:
 custom:
   customDomain:
     domainName: api.liberead.com
-    basePath: payment
+    basePath: billing
     stage: prod
     createRoute53Record: true
   dotenv:
@@ -45,7 +45,7 @@ functions:
     handler: services/startPayIntent.main
     events:
       - http:
-          path: billing/start
+          path: /start
           method: post
           cors: true
           authorizer: aws_iam
@@ -53,7 +53,7 @@ functions:
     handler: services/cancelPayIntent.main
     events:
       - http:
-          path: billing/cancel
+          path: /cancel
           method: post
           cors: true
           authorizer: aws_iam
@@ -61,7 +61,7 @@ functions:
     handler: services/payIntentWebhook.main
     events:
       - http:
-          path: billing/payment_intent/webhook
+          path: /payment_intent/webhook
           method: post
           cors: true
 

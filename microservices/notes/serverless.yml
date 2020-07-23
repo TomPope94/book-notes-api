@@ -43,7 +43,7 @@ functions:
     handler: services/updateNotes.main
     events:
       - http:
-          path: books/notes/{id}
+          path: /{id}
           method: put
           cors: true
           authorizer: aws_iam
@@ -51,7 +51,7 @@ functions:
     handler: services/deleteNotes.main
     events:
       - http:
-          path: books/notes/{id}
+          path: /{id}
           method: delete
           cors: true
           authorizer: aws_iam

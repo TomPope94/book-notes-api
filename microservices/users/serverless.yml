@@ -12,7 +12,7 @@ plugins:
 custom:
   customDomain:
     domainName: api.liberead.com
-    basePath: user
+    basePath: users
     stage: prod
     createRoute53Record: true
   dotenv:
@@ -43,7 +43,7 @@ functions:
     handler: services/createUser.main
     events:
       - http:
-          path: users
+          path: /
           method: post
           cors: true
           authorizer: aws_iam
@@ -51,7 +51,7 @@ functions:
     handler: services/getUser.main
     events:
       - http:
-          path: users
+          path: /
           method: get
           cors: true
           authorizer: aws_iam
@@ -59,7 +59,7 @@ functions:
     handler: services/updateUser.main
     events:
       - http:
-          path: users
+          path: /
           method: put
           cors: true
           authorizer: aws_iam

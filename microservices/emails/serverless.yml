@@ -48,7 +48,7 @@ functions:
     handler: services/welcomeEmail.main
     events:
       - http:
-          path: emails/welcome
+          path: /welcome
           method: post
           cors: true
 
