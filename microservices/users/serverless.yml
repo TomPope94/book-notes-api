@@ -7,6 +7,16 @@ plugins:
   - serverless-bundle # Package our functions with Webpack
   - serverless-offline
   - serverless-dotenv-plugin # Load .env as environment variables
+  - serverless-domain-manager
+
+custom:
+  customDomain:
+    domainName: api.liberead.com
+    basePath: user
+    stage: prod
+    createRoute53Record: true
+  dotenv:
+    path: ../../.env
 
 provider:
   name: aws
@@ -30,7 +40,7 @@ provider:
 
 functions:
   createUser:
-    handler: services/users/createUser.main
+    handler: services/createUser.main
     events:
       - http:
           path: users
@@ -38,7 +48,7 @@ functions:
           cors: true
           authorizer: aws_iam
   getUser:
-    handler: services/users/getUser.main
+    handler: services/getUser.main
     events:
       - http:
           path: users
@@ -46,7 +56,7 @@ functions:
           cors: true
           authorizer: aws_iam
   updateUser:
-    handler: services/users/updateUser.main
+    handler: services/updateUser.main
     events:
       - http:
           path: users
@@ -57,4 +67,4 @@ functions:
 # Create our resources with separate CloudFormation templates
 resources:
   # API Gateway Errors
-  - ${file(resources/api-gateway-errors.yml)}
+  - ${file(../resources/api-gateway-errors.yml)}

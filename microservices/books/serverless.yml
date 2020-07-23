@@ -38,10 +38,6 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: 'arn:aws:dynamodb:eu-west-1:*:*'
-    - Effect: 'Allow'
-      Action:
-        - execute-api:Invoke
-      Resource: 'arn:aws:execute-api:eu-west-1:*:'
 
 functions:
   createBook:

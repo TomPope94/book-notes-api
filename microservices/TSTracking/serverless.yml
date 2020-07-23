@@ -7,6 +7,16 @@ plugins:
   - serverless-bundle # Package our functions with Webpack
   - serverless-offline
   - serverless-dotenv-plugin # Load .env as environment variables
+  - serverless-domain-manager
+
+custom:
+  customDomain:
+    domainName: api.liberead.com
+    basePath: book-tracking-ts
+    stage: prod
+    createRoute53Record: true
+  dotenv:
+    path: ../../.env
 
 provider:
   name: aws
@@ -31,7 +41,7 @@ provider:
 
 functions:
   addProgression_TS:
-    handler: services/timeSeries/addProgression.main
+    handler: services/addProgression.main
     events:
       - http:
           path: books/progress/track/{id}
@@ -39,7 +49,7 @@ functions:
           cors: true
           authorizer: aws_iam
   updateProgression_TS:
-    handler: services/timeSeries/updateProgression.main
+    handler: services/updateProgression.main
     events:
       - http:
           path: books/progress/track/{id}
@@ -47,7 +57,7 @@ functions:
           cors: true
           authorizer: aws_iam
   getBookProgression_TS:
-    handler: services/timeSeries/getBookProgression.main
+    handler: services/getBookProgression.main
     events:
       - http:
           path: books/progress/track/{id}
@@ -55,7 +65,7 @@ functions:
           cors: true
           authorizer: aws_iam
   getUserProgression_TS:
-    handler: services/timeSeries/getUserProgression.main
+    handler: services/getUserProgression.main
     events:
       - http:
           path: books/progress/track
@@ -63,7 +73,7 @@ functions:
           cors: true
           authorizer: aws_iam
   getDayProgression_TS:
-    handler: services/timeSeries/getDayProgression.main
+    handler: services/getDayProgression.main
     events:
       - http:
           path: books/progress/track/day
@@ -74,4 +84,4 @@ functions:
 # Create our resources with separate CloudFormation templates
 resources:
   # API Gateway Errors
-  - ${file(resources/api-gateway-errors.yml)}
+  - ${file(../resources/api-gateway-errors.yml)}

@@ -7,6 +7,16 @@ plugins:
   - serverless-bundle # Package our functions with Webpack
   - serverless-offline
   - serverless-dotenv-plugin # Load .env as environment variables
+  - serverless-domain-manager
+
+custom:
+  customDomain:
+    domainName: api.liberead.com
+    basePath: notes
+    stage: prod
+    createRoute53Record: true
+  dotenv:
+    path: ../../.env
 
 provider:
   name: aws
@@ -30,7 +40,7 @@ provider:
 
 functions:
   updateNotes:
-    handler: services/notes/updateNotes.main
+    handler: services/updateNotes.main
     events:
       - http:
           path: books/notes/{id}
@@ -38,7 +48,7 @@ functions:
           cors: true
           authorizer: aws_iam
   deleteNotes:
-    handler: services/notes/deleteNotes.main
+    handler: services/deleteNotes.main
     events:
       - http:
           path: books/notes/{id}
@@ -49,4 +59,4 @@ functions:
 # Create our resources with separate CloudFormation templates
 resources:
   # API Gateway Errors
-  - ${file(resources/api-gateway-errors.yml)}
+  - ${file(../resources/api-gateway-errors.yml)}

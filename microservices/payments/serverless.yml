@@ -7,6 +7,16 @@ plugins:
   - serverless-bundle # Package our functions with Webpack
   - serverless-offline
   - serverless-dotenv-plugin # Load .env as environment variables
+  - serverless-domain-manager
+
+custom:
+  customDomain:
+    domainName: api.liberead.com
+    basePath: payment
+    stage: prod
+    createRoute53Record: true
+  dotenv:
+    path: ../../.env
 
 provider:
   name: aws
@@ -32,7 +42,7 @@ provider:
 
 functions:
   startPayIntent:
-    handler: services/payments/startPayIntent.main
+    handler: services/startPayIntent.main
     events:
       - http:
           path: billing/start
@@ -40,7 +50,7 @@ functions:
           cors: true
           authorizer: aws_iam
   cancelPayIntent:
-    handler: services/payments/cancelPayIntent.main
+    handler: services/cancelPayIntent.main
     events:
       - http:
           path: billing/cancel
@@ -48,7 +58,7 @@ functions:
           cors: true
           authorizer: aws_iam
   payIntentWebhook:
-    handler: services/payments/payIntentWebhook.main
+    handler: services/payIntentWebhook.main
     events:
       - http:
           path: billing/payment_intent/webhook
@@ -58,4 +68,4 @@ functions:
 # Create our resources with separate CloudFormation templates
 resources:
   # API Gateway Errors
-  - ${file(resources/api-gateway-errors.yml)}
+  - ${file(../resources/api-gateway-errors.yml)}

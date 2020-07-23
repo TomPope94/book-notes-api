@@ -7,6 +7,16 @@ plugins:
   - serverless-bundle # Package our functions with Webpack
   - serverless-offline
   - serverless-dotenv-plugin # Load .env as environment variables
+  - serverless-domain-manager
+
+custom:
+  customDomain:
+    domainName: api.liberead.com
+    basePath: book-tracking
+    stage: prod
+    createRoute53Record: true
+  dotenv:
+    path: ../../.env
 
 provider:
   name: aws
@@ -31,18 +41,18 @@ provider:
 
 functions:
   updateProgression:
-    handler: services/progression/updateProgression.main
+    handler: services/updateProgression.main
     events:
       - http:
-          path: books/progress/{id}
+          path: /{id}
           method: put
           cors: true
           authorizer: aws_iam
   deleteProgression:
-    handler: services/progression/deleteProgression.main
+    handler: services/deleteProgression.main
     events:
       - http:
-          path: books/progress/{id}
+          path: /{id}
           method: delete
           cors: true
           authorizer: aws_iam
@@ -50,4 +60,4 @@ functions:
 # Create our resources with separate CloudFormation templates
 resources:
   # API Gateway Errors
-  - ${file(resources/api-gateway-errors.yml)}
+  - ${file(../resources/api-gateway-errors.yml)}
